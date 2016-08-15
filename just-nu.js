@@ -9,9 +9,9 @@ const colour = require('colour');
 let justNuCount = 0
   , justNuTopics = [];
 
-console.log(colour.yellow('  ---------------------'));
-console.log(colour.yellow('  A F T O N B L A D E T'));
-console.log(colour.yellow('  ---------------------'));
+console.log(colour.yellow('  ---------------------  '));
+console.log(colour.yellow('  A F T O N B L A D E T  '));
+console.log(colour.yellow('  ---------------------  '));
 console.log('\n');
 
 /**
@@ -22,6 +22,47 @@ console.log('\n');
  */
 function getJustNuCount (text) {
   return (text.match(/JUST NU:/g) || []).length;
+}
+
+/**
+ * Finds multiple "subtitles" in a paragraph and returns them in an array.
+ *
+ * @param {String} text - String to search in
+ * @return {String[]} - Array of topics found.
+ */
+function getParagraphParts (text) {
+  const parts = text.split('<span');
+  let subtitles = [];
+
+  function containsArrow (str) {
+    return str.indexOf('abIconArrow') !== -1;
+  }
+
+  function containsCheckmark (str) {
+    return str.indexOf('abSymbBo') !== -1;
+  }
+
+  for (let part of parts) {
+    if (containsArrow(part) || containsCheckmark(part)) {
+      let symbol = part.split('</span>')[0]
+        , subtitle = part.split('</span>')[1];
+
+      symbol = containsArrow(symbol) ? '➞' : '√';
+
+      if (subtitle.indexOf('</p>') !== -1) {
+        subtitle = subtitle.split('</p>')[0];
+      }
+
+      subtitle = subtitle.trim();
+
+      subtitles.push({
+        symbol,
+        subtitle
+      });
+    }
+  }
+
+  return subtitles;
 }
 
 /**
@@ -36,10 +77,22 @@ function getTopics (text) {
 
   for (let justNu of justNus) {
     if (justNu.indexOf('</span>') !== -1 && justNu.indexOf('</h2>') !== -1) {
-      let topic = justNu.split('</span>')[1].split('</h2>')[0];
+      let header = justNu.split('</span>')[1].split('</h2>')[0].replace(/\s+/, '')
+        , paragraphLine
+        , subtitles
+        ;
 
-      if (topic.indexOf('<') === -1) {
-        arr.push(topic);
+      if (header && header.indexOf('<') === -1) {
+        paragraphLine = justNu.split(header)[1].split('</p>')[0];
+
+        if (paragraphLine) {
+          subtitles = getParagraphParts(paragraphLine);
+        }
+
+        arr.push({
+          header,
+          subtitles
+        });
       }
     }
   }
@@ -59,7 +112,15 @@ function reportAndClose (count, topics) {
   console.log('\n');
 
   for (let topic of topics) {
-    console.log('    ' + colour.red('√') + topic.toUpperCase());
+    let header = colour.red('JUST NU: ') + topic.header;
+
+    console.log(`    ${header}`);
+
+    for (let subtitle of topic.subtitles) {
+      let symbol = colour.red(subtitle.symbol);
+
+      console.log(`     ${symbol} ${subtitle.subtitle}`);
+    }
   }
 
   process.exit(0);
