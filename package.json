@@ -25,5 +25,8 @@
   "devDependencies": {
     "eslint": "^3.3.0",
     "eslint-config-tidal": "^1.0.3"
+  },
+  "dependencies": {
+    "colour": "^0.7.1"
   }
 }
