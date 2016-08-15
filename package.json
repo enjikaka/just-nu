@@ -4,6 +4,7 @@
   "description": "Antal JUST NU på Aftonbladet",
   "main": "index.js",
   "scripts": {
+    "test": "eslint *.js",
     "start": "node just-nu"
   },
   "keywords": [
@@ -20,5 +21,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/enjikaka/just-nu.git"
+  },
+  "devDependencies": {
+    "eslint": "^3.3.0",
+    "eslint-config-tidal": "^1.0.3"
   }
 }

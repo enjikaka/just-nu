@@ -13,7 +13,7 @@ function getJustNuCount (string) {
   return (string.match(/JUST NU:/g) || []).length;
 }
 
-function reportAndClose() {
+function reportAndClose () {
   console.log('Antal "JUST NU" just nu:', justNu);
   process.exit(0);
 }
