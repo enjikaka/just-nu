@@ -1,0 +1,20 @@
+{
+  "name": "just-nu",
+  "version": "1.0.2",
+  "description": "Antal JUST NU på aftonbladet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node just-nu"
+  },
+  "keywords": [
+    "just",
+    "nu",
+    "aftonbladet"
+  ],
+  "author": "Jeremy Karlsson <karlsson@jeremy.se>",
+  "license": "MIT",
+  "preferGlobal": true,
+  "bin": {
+    "just-nu": "just-nu.js"
+  }
+}
