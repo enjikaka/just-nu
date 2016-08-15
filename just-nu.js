@@ -89,6 +89,8 @@ function getTopics (text) {
           subtitles = getParagraphParts(paragraphLine);
         }
 
+        header = header.replace(/\s+/g, ' ').trim();
+
         arr.push({
           header,
           subtitles
@@ -114,12 +116,12 @@ function reportAndClose (count, topics) {
   for (let topic of topics) {
     let header = colour.red('JUST NU: ') + topic.header;
 
-    console.log(`    ${header}`);
+    console.log(`  ${header}`);
 
     for (let subtitle of topic.subtitles) {
       let symbol = colour.red(subtitle.symbol);
 
-      console.log(`     ${symbol} ${subtitle.subtitle}`);
+      console.log(`    ${symbol} ${subtitle.subtitle}`);
     }
   }
 
