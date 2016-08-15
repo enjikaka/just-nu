@@ -30,7 +30,7 @@ function getJustNuCount (text) {
  * @param {String} text - String to search in
  * @return {String[]} - Array of topics found.
  */
-function saveTopic (text) {
+function getTopics (text) {
   const justNus = text.split(/JUST NU:/g);
   let arr = [];
 
@@ -73,7 +73,7 @@ http.request({ host: 'www.aftonbladet.se' }, res => {
 
     if (count > 0) {
       justNuCount += count;
-      justNuTopics = justNuTopics.concat(saveTopic(chunk));
+      justNuTopics = justNuTopics.concat(getTopics(chunk));
     }
   });
 
