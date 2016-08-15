@@ -1,7 +1,7 @@
 {
   "name": "just-nu",
   "version": "1.0.2",
-  "description": "Antal JUST NU på aftonbladet",
+  "description": "Antal JUST NU på Aftonbladet",
   "main": "index.js",
   "scripts": {
     "start": "node just-nu"
@@ -16,5 +16,9 @@
   "preferGlobal": true,
   "bin": {
     "just-nu": "just-nu.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enjikaka/just-nu.git"
   }
 }
