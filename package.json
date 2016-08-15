@@ -28,5 +28,8 @@
   },
   "dependencies": {
     "colour": "^0.7.1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   }
 }
