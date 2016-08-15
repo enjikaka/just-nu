@@ -18,7 +18,7 @@ console.log('\n');
  * Find number of "JUST NU:" in a string.
  *
  * @param {String} text - String to search in
- * @return {Number} - Occurances found.
+ * @return {Number} - Occurrences found.
  */
 function getJustNuCount (text) {
   return (text.match(/JUST NU:/g) || []).length;
