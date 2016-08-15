@@ -5,11 +5,6 @@
 
 const http = require('http');
 
-const options = {
-  host: 'www.aftonbladet.se',
-  port: 80
-};
-
 let justNu = 0;
 
 function getJustNuCount (string) {
@@ -21,7 +16,7 @@ function reportAndClose () {
   process.exit(0);
 }
 
-const req = http.request(options, res => {
+http.request({ host: 'www.aftonbladet.se' }, res => {
   res.setEncoding('utf8');
 
   res.on('data', chunk => {
@@ -29,6 +24,4 @@ const req = http.request(options, res => {
   });
 
   res.on('end', reportAndClose);
-});
-
-req.end();
+}).end();
