@@ -1,6 +1,9 @@
 #! /usr/bin/env node
 
-const http = require("http");
+/* eslint-env node */
+/* eslint no-console:0 */
+
+const http = require('http');
 
 const options = {
   host: 'www.aftonbladet.se',
@@ -18,10 +21,10 @@ function reportAndClose () {
   process.exit(0);
 }
 
-const req = http.request(options, (res) => {
+const req = http.request(options, res => {
   res.setEncoding('utf8');
 
-  res.on('data', (chunk) => {
+  res.on('data', chunk => {
     justNu += getJustNuCount(chunk);
   });
 
