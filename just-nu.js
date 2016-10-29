@@ -109,14 +109,14 @@ function getTopics (text) {
  * @param {String[]} topics - Array of topics as strings to list in console.
  */
 function reportAndClose (count, topics) {
-  console.log(colour.white('  Antal "JUST NU" just nu:'), colour.cyan(count));
+  console.log(colour.white(`  Antal ${'JUST NU'.bold} just nu:`), colour.cyan(count));
 
   console.log('\n');
 
   for (let topic of topics) {
-    let header = colour.red('JUST NU: ') + topic.header;
+    let header = 'JUST NU:'.red.bold;
 
-    console.log(`  ${header}`);
+    console.log(`  ${header} ${topic.header}`);
 
     for (let subtitle of topic.subtitles) {
       let symbol = colour.red(subtitle.symbol);
