@@ -15,9 +15,6 @@
   "author": "Jeremy Karlsson <karlsson@jeremy.se>",
   "license": "MIT",
   "preferGlobal": true,
-  "bin": {
-    "just-nu": "just-nu.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/enjikaka/just-nu.git"
