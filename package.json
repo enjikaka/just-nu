@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "eslint *.js",
-    "start": "node just-nu"
+    "start": "node index"
   },
   "keywords": [
     "just",
