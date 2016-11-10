@@ -1,18 +1,8 @@
 #! /usr/bin/env node
 
-/* eslint-env node */
-/* eslint no-console:0 */
+'use strict';
 
 const http = require('http');
-const colour = require('colour');
-
-let justNuCount = 0
-  , justNuTopics = [];
-
-console.log(colour.yellow('  ---------------------  '));
-console.log(colour.yellow('  A F T O N B L A D E T  '));
-console.log(colour.yellow('  ---------------------  '));
-console.log('\n');
 
 /**
  * Find number of "JUST NU:" in a string.
@@ -32,7 +22,7 @@ function getJustNuCount (text) {
  */
 function getParagraphParts (text) {
   const parts = text.split('<span');
-  let subtitles = [];
+  const subtitles = [];
 
   function containsArrow (str) {
     return str.indexOf('abIconArrow') !== -1;
@@ -102,43 +92,28 @@ function getTopics (text) {
   return arr;
 }
 
-/**
- * Prints to console.
- *
- * @param {Number} count - Number of "JUST NU :"s to reportAndClose
- * @param {String[]} topics - Array of topics as strings to list in console.
- */
-function reportAndClose (count, topics) {
-  console.log(colour.white(`  Antal ${'JUST NU'.bold} just nu:`), colour.cyan(count));
+module.exports = function (callback) {
+  let justNuCount = 0
+    , justNuTopics = []
+    ;
 
-  console.log('\n');
+  http.request({ host: 'www.aftonbladet.se' }, res => {
+    res.setEncoding('utf8');
 
-  for (let topic of topics) {
-    let header = 'JUST NU:'.red.bold;
+    res.on('data', chunk => {
+      let count = getJustNuCount(chunk);
 
-    console.log(`  ${header} ${topic.header}`);
+      if (count > 0) {
+        justNuCount += count;
+        justNuTopics = justNuTopics.concat(getTopics(chunk));
+      }
+    });
 
-    for (let subtitle of topic.subtitles) {
-      let symbol = colour.red(subtitle.symbol);
-
-      console.log(`    ${symbol} ${subtitle.subtitle}`);
-    }
-  }
-
-  process.exit(0);
-}
-
-http.request({ host: 'www.aftonbladet.se' }, res => {
-  res.setEncoding('utf8');
-
-  res.on('data', chunk => {
-    let count = getJustNuCount(chunk);
-
-    if (count > 0) {
-      justNuCount += count;
-      justNuTopics = justNuTopics.concat(getTopics(chunk));
-    }
-  });
-
-  res.on('end', () => reportAndClose(justNuCount, justNuTopics));
-}).end();
+    res.on('end', () => {
+      const count = justNuCount;
+      const topics = justNuTopics;
+      
+      callback({ count, topics });
+    });
+  }).end();
+};
