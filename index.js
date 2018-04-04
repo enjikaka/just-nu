@@ -25,15 +25,21 @@ module.exports = function () {
       // Loop over the items in item and grab text or title values
       const topics = filteredItems.map(item => {
         return item.items.map(deepItem => {
+          const newItem = {};
+
           if (deepItem.title && deepItem.title.value.indexOf('JUST NU') !== -1) {
-            return deepItem.title.value;
+            newItem.title = deepItem.title.value;
           }
 
           if (deepItem.text && deepItem.text.value.indexOf('JUST NU') !== -1) {
-            return deepItem.text.value;
+            newItem.title = deepItem.text.value;
           }
 
-          return false;
+          if (deepItem.target && deepItem.target.expandedUri) {
+            newItem.url = deepItem.target.expandedUri;
+          }
+
+          return newItem;
         }).filter(Boolean);
       }).reduce(smoosh);
 
