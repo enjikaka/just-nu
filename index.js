@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 const smoosh = (a, b) => a.concat(b);
 
-module.exports = function (callback) {
+module.exports = function () {
   // @ts-ignore
   return fetch('http://aftonbladet.se')
     .then(r => r.text())
@@ -13,20 +13,16 @@ module.exports = function (callback) {
       const items = Object.values(json.collections[collectionKey].contents.items);
 
       const filteredItems = items
-        .filter(item => JSON.stringify(item).indexOf('JUST NU') !== -1)
-        .map(item => {
-          if (item.type === 'widget') {
-            return item.items;
-          }
+        .filter(item => JSON.stringify(item).indexOf('JUST NU') !== -1) // Filter items that does not contain the text JUST NU
+        .map(item => item.type === 'widget' ? item.items : item) // Flatten "widgets"
+        .reduce(smoosh) // Smoosh array of items from widet types
+        .map(item => { // Filter out items in item that does not contain JUST NU
+          item.items = item.items.filter(deepItem => JSON.stringify(deepItem).indexOf('JUST NU') !== -1);
 
-          return item;
-        })
-        .reduce(smoosh)
-        .map(item => {
-          item.items = item.items.filter(item => JSON.stringify(item).indexOf('JUST NU') !== -1);
           return item;
         });
 
+      // Loop over the items in item and grab text or title values
       const topics = filteredItems.map(item => {
         return item.items.map(deepItem => {
           if (deepItem.title && deepItem.title.value.indexOf('JUST NU') !== -1) {
@@ -36,7 +32,9 @@ module.exports = function (callback) {
           if (deepItem.text && deepItem.text.value.indexOf('JUST NU') !== -1) {
             return deepItem.text.value;
           }
-        });
+
+          return false;
+        }).filter(Boolean);
       }).reduce(smoosh);
 
       const count = topics.length;
