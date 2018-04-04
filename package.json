@@ -4,7 +4,7 @@
   "description": "Antal JUST NU på Aftonbladet",
   "main": "index.js",
   "scripts": {
-    "test": "eslint *.js",
+    "test": "eslint *.js && node test",
     "start": "node index"
   },
   "keywords": [
