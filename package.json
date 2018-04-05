@@ -1,6 +1,6 @@
 {
   "name": "just-nu",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Antal JUST NU på Aftonbladet",
   "main": "index.js",
   "scripts": {
