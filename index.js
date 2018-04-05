@@ -39,7 +39,7 @@ module.exports = function () {
 
           return newItem;
         }).filter(Boolean);
-      }).reduce(smoosh);
+      });
 
       const count = topics.length;
 
