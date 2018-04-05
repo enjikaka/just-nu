@@ -37,7 +37,7 @@ module.exports = function () {
             newItem.url = deepItem.target.expandedUri;
           }
 
-          return newItem;
+          return Object.keys(newItem).length > 0 ? newItem : undefined;
         }).filter(Boolean);
       });
 
