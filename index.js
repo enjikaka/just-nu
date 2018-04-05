@@ -12,7 +12,7 @@ module.exports = function () {
 
       const filteredItems = items
         .filter(item => JSON.stringify(item).indexOf('JUST NU') !== -1) // Filter items that does not contain the text JUST NU
-        .map(item => item.type === 'widget' ? item.items : item) // Flatten "widgets"
+        .map(item => item.type === 'widget' ? item.items : [item]) // Flatten "widgets"
         .reduce(smoosh) // Smoosh array of items from widet types
         .map(item => { // Filter out items in item that does not contain JUST NU
           item.items = item.items.filter(deepItem => JSON.stringify(deepItem).indexOf('JUST NU') !== -1);
@@ -38,7 +38,9 @@ module.exports = function () {
           }
 
           return Object.keys(newItem).length > 0 ? newItem : undefined;
-        }).filter(Boolean);
+        })
+          .filter(Boolean)
+          .reduce(smoosh);
       });
 
       const count = topics.length;
