@@ -1,15 +1,13 @@
-const fetch = require('node-fetch');
+const fetch = require('isomorphic-fetch');
 
 const smoosh = (a, b) => a.concat(b);
 
 module.exports = function () {
-  // @ts-ignore
   return fetch('http://aftonbladet.se')
     .then(r => r.text())
     .then(text => {
       const json = JSON.parse(text.split('<script>window.FLUX_STATE = ')[1].split('</script>')[0]);
       const collectionKey = Object.keys(json.collections)[0];
-      // @ts-ignore
       const items = Object.values(json.collections[collectionKey].contents.items);
 
       const filteredItems = items
