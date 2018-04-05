@@ -1,8 +1,9 @@
-const fetch = require('isomorphic-fetch');
+const fetch = require('node-fetch');
 
 const smoosh = (a, b) => a.concat(b);
 
 module.exports = function () {
+  // @ts-ignore - node-fetch types are wrong
   return fetch('http://aftonbladet.se')
     .then(r => r.text())
     .then(text => {
